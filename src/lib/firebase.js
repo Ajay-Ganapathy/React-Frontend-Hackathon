@@ -1,21 +1,22 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import firebase from "firebase";
+import "firebase/firestore";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyA9Dq-i4oiQaRtjfBYtKvk2aS8iMgML-rM",
-  authDomain: "react-frontend-hackathon.firebaseapp.com",
-  projectId: "react-frontend-hackathon",
-  storageBucket: "react-frontend-hackathon.appspot.com",
-  messagingSenderId: "757751684160",
-  appId: "1:757751684160:web:19681ac8dd1824b49b13a5",
-  measurementId: "G-VJBHTETRLR"
+  apiKey: "AIzaSyBwoWtRQWM0z1N0ODYr3GswK7gvKt0SFiE",
+  authDomain: "classroom-clone-9b890.firebaseapp.com",
+  projectId: "classroom-clone-9b890",
+  storageBucket: "classroom-clone-9b890.appspot.com",
+  messagingSenderId: "383818944088",
+  appId: "1:383818944088:web:bc934069eb35c30df3042d",
+  measurementId: "G-F84PC8BNXH"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+firebase.initializeApp(firebaseConfig)
+
+const db = firebase.firestore();
+const auth = firebase.auth();
+const provider = new firebase.auth.GoogleAuthProvider();
+const storage = firebase.storage();
+
+export {auth , provider , storage}
+export default db
