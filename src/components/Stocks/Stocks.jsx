@@ -1,43 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
-const Stocks = () => {
-  const [stockData, setStockData] = useState(null);
-  const [symbol, setSymbol] = useState('AAPL'); // Default stock symbol
+const StockData = () => {
+  const [stockData, setStockData] = useState([]);
+  const apiKey = ' 3O9DZ9X7OVZX4BW8';
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchStockData = async () => {
       try {
-        const apiKey = '3O9DZ9X7OVZX4BW8';
-        const apiUrl = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
+        const symbols = ['AAPL', 'MSFT', 'GOOGL']; // Add more symbols as needed
+        const stockPromises = symbols.map(async (symbol) => {
+          const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${apiKey}`;
+          const response = await fetch(apiUrl);
+          const data = await response.json();
 
-        const response = await axios.get(apiUrl);
-        const data = response.data['Global Quote'];
+          // Extract relevant information from the response
+          const stockInfo = {
+            symbol: symbol,
+            timeSeries: data['Time Series (5min)'] || {},
+          };
 
-        setStockData(data);
+          return stockInfo;
+        });
+
+        const stocks = await Promise.all(stockPromises);
+        setStockData(stocks);
       } catch (error) {
         console.error('Error fetching stock data:', error);
       }
     };
 
-    fetchData();
-  }, [symbol]);
+    fetchStockData();
+  }, [apiKey]);
 
   return (
     <div>
       <h2>Stock Data</h2>
-      {stockData ? (
-        <div>
-          <p>Symbol: {stockData['01. symbol']}</p>
-          <p>Price: {stockData['05. price']}</p>
-          <p>Change: {stockData['09. change']}</p>
-          <p>Change Percent: {stockData['10. change percent']}</p>
+      {stockData.map((stock) => (
+        <div key={stock.symbol}>
+          <h3>{stock.symbol}</h3>
+          <ul>
+            {Object.entries(stock.timeSeries).map(([timestamp, data]) => (
+              <li key={timestamp}>
+                {timestamp}: {data['1. open']}
+              </li>
+            ))}
+          </ul>
         </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+      ))}
     </div>
   );
 };
 
-export default Stocks;
+export default StockData;
