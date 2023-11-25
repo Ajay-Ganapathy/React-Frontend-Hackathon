@@ -1,9 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { useLocalContext } from '../../context/context';
+import home2 from '../../assets/images/home2.jpg'
+
 const Login = () => {
 
-  const { login, loggedInUser } = useLocalContext();
+  const { login, loggedInUser , loggedInMail } = useLocalContext();
   return (
 <div>
 
@@ -14,11 +16,11 @@ const Login = () => {
           <div class="card" style={{borderRadius:  '1rem'}}>
             <div class="row g-0">
               <div class="col-md-6 col-lg-5 d-none d-md-block">
-                {/* <img
+                <img
                   src={home2}
                   alt="login form"
                   class="img-fluid" style={{borderRadius: '1rem 0 0 1rem', height : "110vh"}}
-                /> */}
+                />
               </div>
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="card-body p-4 p-lg-5 text-black">
@@ -27,7 +29,7 @@ const Login = () => {
   
                     <div class="d-flex align-items-center mb-3 pb-1">
                       <h1> <i class="fas fa-user-graduate " style={{color: 'orangered', marginRight: '10px'}}></i></h1>
-                      <span class="h1 fw-bold mb-0">Enlighten Minds</span>
+                      <span class="h1 fw-bold mb-0">Stock Management System</span>
                     </div>
   
                     <h5 class="fw-normal mb-3 pb-3" style={{letterSpacing : '1px'}}>Sign into your account</h5>
@@ -47,7 +49,7 @@ const Login = () => {
                     </div>
   
                     <div class="pt-1 mb-4">
-                      <Link to="/home" class="btn btn-dark btn-lg btn-block" >Login</Link>
+                      <Link to="/dashboard" class="btn btn-dark btn-lg btn-block" >Login</Link>
                     </div>
 
                     <div class="pt-1 mb-4">

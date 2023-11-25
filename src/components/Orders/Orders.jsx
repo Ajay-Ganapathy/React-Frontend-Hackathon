@@ -6,7 +6,8 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from '../Title/Title';
-
+import { useState , useEffect } from 'react';
+import axios from 'axios';
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
   return { id, date, name, shipTo, paymentMethod, amount };
@@ -52,30 +53,48 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
-export default function Orders() {
+export default function Orders(props) {
+
+  const [stockData, setStockData] = useState(props.stockData);
+
+  const [symbol, setSymbol] = useState('AAPL'); // Default stock symbol
+
+  {stockData && console.log(stockData['01 . symbol'])} 
+  
+  
   return (
     <React.Fragment>
       <Title>Recent Orders</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Ship To</TableCell>
-            <TableCell>Payment Method</TableCell>
-            <TableCell align="right">Sale Amount</TableCell>
+            <TableCell>Company Name</TableCell>
+            <TableCell>Open</TableCell>
+            <TableCell>Low</TableCell>
+            <TableCell>High</TableCell>
+            <TableCell align="right">Price</TableCell>
+            <TableCell align="right">Latest Trading Day</TableCell>
+            <TableCell align="right">Change Percent</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{`$${row.amount}`}</TableCell>
-            </TableRow>
-          ))}
+          {
+
+          stockData &&
+         
+          <TableRow >
+            <TableCell>{stockData['01. symbol']}</TableCell>
+            <TableCell>{stockData['02 . symbol']}</TableCell>
+            <TableCell>{stockData['04 . low']}</TableCell>
+            <TableCell>{stockData['03 . high']}</TableCell>
+            <TableCell>{stockData['05 . price']}</TableCell>
+            <TableCell>{stockData['07 . latest trading day']}</TableCell>
+            <TableCell align="right">{stockData['10 . change percent']}</TableCell>
+          </TableRow> 
+
+          }
+          
+          
         </TableBody>
       </Table>
       <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>

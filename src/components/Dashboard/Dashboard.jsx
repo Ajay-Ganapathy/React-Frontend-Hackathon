@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -21,6 +21,14 @@ import { mainListItems, secondaryListItems } from '../ListItems/ListItems';
 import Chart from '../Charts/Charts';
 import Deposits from '../Deposits/Deposits';
 import Orders from '../Orders/Orders';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Title from '../Title/Title';
 
 function Copyright(props) {
   return (
@@ -85,6 +93,29 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const defaultTheme = createTheme();
 
 export default function Dashboard() {
+  const [stockData, setStockData] = useState(null);
+
+  const [symbol, setSymbol] = useState('AAPL'); // Default stock symbol
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const apiKey = '3O9DZ9X7OVZX4BW8';
+        const apiUrl = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
+
+        const response = await axios.get(apiUrl);
+        const data = response.data['Global Quote'];
+
+        setStockData(data);
+      } catch (error) {
+        console.error('Error fetching stock data:', error);
+      }
+    };
+
+    fetchData();
+  }, [symbol]);
+  console.log(stockData)
+  console.log(stockData['01. symbol'])
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -192,7 +223,41 @@ export default function Dashboard() {
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
+                  {/* <Orders data = {stockData} /> */}
+
+                  <Title>Stock Details</Title>
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell>Company Name</TableCell>
+            <TableCell>Open</TableCell>
+            <TableCell>Low</TableCell>
+            <TableCell>High</TableCell>
+            <TableCell align="right">Price</TableCell>
+            <TableCell align="right">Latest Trading Day</TableCell>
+            <TableCell align="right">Change Percent</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {
+
+          stockData &&
+         
+          <TableRow >
+            <TableCell>{stockData['01. symbol']}</TableCell>
+            <TableCell>{stockData['02. open']}</TableCell>
+            <TableCell>{stockData['04. low']}</TableCell>
+            <TableCell>{stockData['03. high']}</TableCell>
+            <TableCell>{stockData['05. price']}</TableCell>
+            <TableCell>{stockData['07. latest trading day']}</TableCell>
+            <TableCell align="right">{stockData['10. change percent']}</TableCell>
+          </TableRow> 
+
+          }
+          
+          
+        </TableBody>
+      </Table>
                 </Paper>
               </Grid>
             </Grid>

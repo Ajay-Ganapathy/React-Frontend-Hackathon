@@ -36,7 +36,7 @@ const Landing = () => {
                           </div>
                     <div
                         class="col-md-5 col-lg-5 offset-lg-1 offset-xl-0 d-none d-lg-block phone-holder">
-                        <div class="iphone-mockup"><img src="assets/stock.png" class="device" />
+                        <div class="iphone-mockup"><img src="assets/images/stock.png" class="device" />
                             <div class="screen"></div>
                         </div>
                 </div>
