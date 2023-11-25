@@ -29,7 +29,8 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from '../Title/Title';
-
+import { Select } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
 
 function Copyright(props) {
   return (
@@ -229,7 +230,7 @@ export default function Dashboard() {
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                   {/* <Orders data = {stockData} /> */}
 
-                  <label>
+                  {/* <label>
         Select Company:  
         <select value={selectedCompany} className='ml-4' onChange={handleCompanyChange}> 
           {companies.map((company) => (
@@ -238,7 +239,24 @@ export default function Dashboard() {
             </option>
           ))}
         </select>
-      </label>
+      </label> */}
+
+<Title>Select the Company</Title>
+
+<Select
+          labelId="demo-simple-select-helper-label"
+          id="demo-simple-select-helper"
+          value={selectedCompany}
+          label="Age"
+          onChange={handleCompanyChange}
+        >
+          {
+            companies.map((company) => (
+              <MenuItem value={company}>{company}</MenuItem>
+            ))
+          }
+          
+        </Select>
                   <Title>Stock Details</Title>
 
       <Table size="small">
