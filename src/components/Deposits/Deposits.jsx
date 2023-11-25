@@ -7,19 +7,26 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
-export default function Deposits() {
+export default function Deposits(props) {
+  const currentDate = new Date();
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth() + 1; 
+  const day = currentDate.getDate();
+
+  const formattedDate = `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
   return (
     <React.Fragment>
-      <Title>Recent Deposits</Title>
+      <Title>Price</Title>
       <Typography component="p" variant="h4">
-        $3,024.00
+      {props.price}
       </Typography>
       <Typography color="text.secondary" sx={{ flex: 1 }}>
-        on 15 March, 2019
+        {formattedDate}
       </Typography>
       <div>
         <Link color="primary" href="#" onClick={preventDefault}>
-          View balance
+          View Details
         </Link>
       </div>
     </React.Fragment>

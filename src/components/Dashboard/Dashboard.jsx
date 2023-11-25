@@ -30,12 +30,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from '../Title/Title';
 
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Stock Management System
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -89,19 +90,19 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function Dashboard() {
   const [stockData, setStockData] = useState(null);
+  const [selectedCompany, setSelectedCompany] = useState('AAPL');
+  
 
-  const [symbol, setSymbol] = useState('AAPL'); // Default stock symbol
-
+    const companies = ['AAPL', 'IBM' ,'MSFT', 'GOOGL', 'AMZN'];
   useEffect(() => {
     const fetchData = async () => {
       try {
         const apiKey = '3O9DZ9X7OVZX4BW8';
-        const apiUrl = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
+        const apiUrl = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${selectedCompany}&apikey=${apiKey}`;
 
         const response = await axios.get(apiUrl);
         const data = response.data['Global Quote'];
@@ -113,14 +114,17 @@ export default function Dashboard() {
     };
 
     fetchData();
-  }, [symbol]);
-  console.log(stockData)
-  console.log(stockData['01. symbol'])
+  }, [selectedCompany]);
+  
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
+  
+  const handleCompanyChange = (event) => {
+    setSelectedCompany(event.target.value);
+  };
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
@@ -128,7 +132,7 @@ export default function Dashboard() {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: '24px', // keep right padding when drawer closed
+              pr: '24px', 
             }}
           >
             <IconButton
@@ -207,7 +211,7 @@ export default function Dashboard() {
                   <Chart />
                 </Paper>
               </Grid>
-              {/* Recent Deposits */}
+              {/* Recent Price */}
               <Grid item xs={12} md={4} lg={3}>
                 <Paper
                   sx={{
@@ -217,15 +221,26 @@ export default function Dashboard() {
                     height: 240,
                   }}
                 >
-                  <Deposits />
+                  <Deposits price = {stockData &&stockData['05. price']} />
                 </Paper>
               </Grid>
-              {/* Recent Orders */}
+              {/* Recent Updates */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                   {/* <Orders data = {stockData} /> */}
 
+                  <label>
+        Select Company:  
+        <select value={selectedCompany} className='ml-4' onChange={handleCompanyChange}> 
+          {companies.map((company) => (
+            <option key={company} value={company}>
+              {company}
+            </option>
+          ))}
+        </select>
+      </label>
                   <Title>Stock Details</Title>
+
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -258,6 +273,8 @@ export default function Dashboard() {
           
         </TableBody>
       </Table>
+
+      
                 </Paper>
               </Grid>
             </Grid>
