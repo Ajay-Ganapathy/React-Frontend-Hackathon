@@ -10,12 +10,17 @@ The Stock Management System is a web application designed to help users manage a
 
 - **Stock Data:** Real-time stock data is fetched using the Alpha Vantage API, providing users with up-to-date information on various stocks.
 
-- **Material-UI:** The user interface is designed using Material-UI components, ensuring a sleek and responsive design for an enhanced user experience.
+-  **UI Libraries:**
+  - Material-UI: The user interface is designed using Material-UI components, ensuring a sleek and responsive design for an enhanced user experience..
+  - Bootstrap: Enhancing the user interface with additional styling and components
 
 ## Technologies Used
 
 - **Frontend Framework:** React.js
-- **UI Library:** Material-UI
+- **UI Libraries:**
+  - Material-UI
+  - Bootstrap
+    
 - **Authentication:** Firebase Authentication
 - **Stock Data API:** Alpha Vantage API
 
